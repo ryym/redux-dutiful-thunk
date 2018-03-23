@@ -1,0 +1,29 @@
+{
+  "name": "redux-dutiful-thunk",
+  "version": "0.0.0",
+  "description": "Use thunk action without breaking Redux types",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ryym/redux-dutiful-thunk.git"
+  },
+  "main": "dist/index.js",
+  "typings": "dist/types/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "redux",
+    "redux-thunk"
+  ],
+  "author": "ryym",
+  "license": "MIT",
+  "devDependencies": {
+    "prettier": "^1.11.1",
+    "tslint": "^5.9.1",
+    "typescript": "^2.7.2"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "strict": true,
+    "declaration": true,
+    "declarationDir": "dist/types",
+    "module": "es6",
+    "allowSyntheticDefaultImports": true,
+    "target": "es6"
+  },
+  "include": ["src"]
+}
