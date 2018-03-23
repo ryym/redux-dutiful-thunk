@@ -52,7 +52,7 @@ export function thunkAs<S, A extends Action, C, T extends ThunkType, R>(
 }
 
 export function createThunkMiddleware<C = void, D extends Dispatch = Dispatch>(
-  context: C,
+  context?: C,
 ): Middleware<{}, any, D> {
   return <S>({dispatch, getState}: MiddlewareAPI<D, S>) => next => action => {
     if (action != null && action.type === '@@redux-dutiful-thunk/THUNK') {
