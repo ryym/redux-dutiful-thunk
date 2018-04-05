@@ -33,7 +33,8 @@ export function thunkAs<S, A extends Action, C, R, T extends ThunkType>(
   thunkType: T,
   f: Thunk<S, A, C, R>,
 ): ThunkAction<S, A, C, R, T> {
-  let _resolve: (r: R) => any, _reject: (a: any) => any;
+  let _resolve: (r: R) => any;
+  let _reject: (a: any) => any;
   const promise = new Promise<R>((resolve, reject) => {
     _resolve = resolve;
     _reject = reject;
