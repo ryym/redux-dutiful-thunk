@@ -8,31 +8,31 @@ export type Thunk<S, A extends Action, C, R> = (
 
 export type ThunkType = string | null;
 
-export type ThunkAction<S, A extends Action, C, T extends ThunkType, R> = {
+export type ThunkAction<S, A extends Action, C, R, T extends ThunkType> = {
   readonly type: '@@redux-dutiful-thunk/THUNK';
   readonly thunk: Thunk<S, A, C, R>;
   readonly promise: Promise<R>;
   readonly thunkType: T;
 };
 
-export type AnyThunkAction<T extends ThunkType = any, R = any> = ThunkAction<
+export type AnyThunkAction<R = any, T extends ThunkType = any> = ThunkAction<
   any,
   AnyAction,
   any,
-  T,
-  R
+  R,
+  T
 >;
 
 export function thunk<S, A extends Action, C, R>(
   f: Thunk<S, A, C, R>,
-): ThunkAction<S, A, C, null, R> {
+): ThunkAction<S, A, C, R, null> {
   return thunkAs(null, f);
 }
 
-export function thunkAs<S, A extends Action, C, T extends ThunkType, R>(
+export function thunkAs<S, A extends Action, C, R, T extends ThunkType>(
   thunkType: T,
   f: Thunk<S, A, C, R>,
-): ThunkAction<S, A, C, T, R> {
+): ThunkAction<S, A, C, R, T> {
   let _resolve: (r: R) => any, _reject: (a: any) => any;
   const promise = new Promise<R>((resolve, reject) => {
     _resolve = resolve;
