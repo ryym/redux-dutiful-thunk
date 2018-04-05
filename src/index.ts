@@ -6,10 +6,13 @@ export type Thunk<S, A extends Action, C, R> = (
   context: C,
 ) => Promise<R>;
 
+export const ACTION_TYPE = '@@redux-dutiful-thunk/THUNK';
+export type ActionType = typeof ACTION_TYPE;
+
 export type ThunkType = string | null;
 
 export type ThunkAction<S, A extends Action, C, R, T extends ThunkType> = {
-  readonly type: '@@redux-dutiful-thunk/THUNK';
+  readonly type: ActionType;
   readonly thunk: Thunk<S, A, C, R>;
   readonly promise: Promise<R>;
   readonly thunkType: T;
@@ -41,7 +44,7 @@ export function thunkAs<S, A extends Action, C, R, T extends ThunkType>(
   });
 
   return {
-    type: '@@redux-dutiful-thunk/THUNK',
+    type: ACTION_TYPE,
     thunk: (dispatch, getState, context) => {
       return f(dispatch, getState, context)
         .then(_resolve)
@@ -56,10 +59,14 @@ export function createThunkMiddleware<C = void, D extends Dispatch = Dispatch>(
   context?: C,
 ): Middleware<{}, any, D> {
   return <S>({dispatch, getState}: MiddlewareAPI<D, S>) => next => action => {
-    if (action != null && action.type === '@@redux-dutiful-thunk/THUNK') {
+    if (action != null && isThunkAction(action)) {
       action.thunk(dispatch, getState, context);
       return action;
     }
     return next(action);
   };
+}
+
+export function isThunkAction(action: AnyAction): action is AnyThunkAction {
+  return action.type === ACTION_TYPE;
 }
