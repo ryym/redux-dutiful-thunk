@@ -1,6 +1,6 @@
 import {Action, Dispatch} from 'redux';
 import * as assert from 'assert';
-import {thunk, thunkAs, isThunkAction} from './index';
+import {thunk, thunkAs, isThunkAction, createThunkMiddleware} from './index';
 
 const assertEqual = assert.deepStrictEqual;
 
@@ -41,5 +41,48 @@ describe('isThunkAction()', () => {
 });
 
 describe('thunk middleware', () => {
-  // TODO: Write tests about the middleware.
+  const thunkMiddleware = createThunkMiddleware();
+  const runNext = thunkMiddleware({dispatch, getState});
+
+  it('runs a thunk', async () => {
+    const val = Symbol('return value');
+    const action = runNext(dispatch)(thunk(async () => val));
+    assertEqual(
+      await action.promise,
+      val,
+      'checking return value of middleware',
+    );
+  });
+
+  it('just passes action to next if not a thunk', () => {
+    let nextCalled = false;
+    let someFuncCalled = false;
+
+    const action = {
+      type: 'SOME_ACTION',
+      someFunc: async () => {
+        someFuncCalled = true;
+      },
+    };
+    const mockDispatch = <A extends Action>(a: A) => {
+      nextCalled = true;
+      return a;
+    };
+    const returnedAction = runNext(mockDispatch)(action);
+
+    assert(nextCalled, 'checking next is called');
+    assert(!someFuncCalled, 'checking non-thunk action is not called');
+    assertEqual(returnedAction, action, 'checking returned action');
+  });
+
+  context('with context', () => {
+    const context = Symbol('context');
+    const thunkMiddleware = createThunkMiddleware(context);
+    const runNext = thunkMiddleware({dispatch, getState});
+
+    it('passes a context to thunk function', async () => {
+      const action = runNext(dispatch)(thunk(async (d, s, ctx) => ctx));
+      assertEqual(await action.promise, context, 'comparing context');
+    });
+  });
 });

@@ -62,6 +62,9 @@ export function createThunkMiddleware<C = void, D extends Dispatch = Dispatch>(
   return <S>({dispatch, getState}: MiddlewareAPI<D, S>) => next => action => {
     if (action != null && isThunkAction(action)) {
       action.thunk(dispatch, getState, context);
+
+      // Currently we return `action` without calling `next` like redux-thunk.
+      // But this is just an action so we can pass it to `next` as well.
       return action;
     }
     return next(action);
