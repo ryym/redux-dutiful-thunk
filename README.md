@@ -1,5 +1,8 @@
 # Redux Dutiful Thunk
 
+[![npm version](https://img.shields.io/npm/v/redux-dutiful-thunk.svg)](https://www.npmjs.com/package/redux-dutiful-thunk)
+[![circleci](https://circleci.com/gh/ryym/redux-dutiful-thunk.svg?style=svg)](https://circleci.com/gh/ryym/redux-dutiful-thunk)
+
 This is a [Redux](https://redux.js.org/) middleware almost the same as [redux-thunk](https://github.com/gaearon/redux-thunk), but it respects Redux types.
 
 ## Motivation
