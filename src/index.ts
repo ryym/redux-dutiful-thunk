@@ -9,7 +9,7 @@ export type Thunk<S, A extends Action, C = null, R = void> = (
 export const ACTION_TYPE = '@@redux-dutiful-thunk/THUNK';
 export type ActionType = typeof ACTION_TYPE;
 
-export type ThunkType = string | null;
+export type ThunkType = any | null;
 
 export type ThunkAction<S, A extends Action, C, R, T extends ThunkType> = {
   readonly type: ActionType;
