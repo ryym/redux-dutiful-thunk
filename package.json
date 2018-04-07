@@ -13,7 +13,7 @@
     "dist"
   ],
   "scripts": {
-    "test": "mocha --require ts-node/register/type-check 'src/*_test.ts'",
+    "test": "TS_NODE_CACHE=0 mocha --require ts-node/register/type-check 'src/*_test.ts'",
     "test:w": "npm run test -- --watch --watch-extensions ts",
     "lint": "tslint -p . -t verbose 'src/**/*.ts'"
   },
