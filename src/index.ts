@@ -1,5 +1,6 @@
 import {Dispatch, Action, AnyAction, Middleware, MiddlewareAPI} from 'redux';
 
+// Thunk is a type of thunk function.
 export type Thunk<S, A extends Action, C = null, R = void> = (
   dispatch: Dispatch<A>,
   getState: () => S,
@@ -11,6 +12,7 @@ export type ActionType = typeof ACTION_TYPE;
 
 export type ThunkType = any | null;
 
+// ThunkAction is a type of a thunk action that is created by thunk action creators.
 export type ThunkAction<S, A extends Action, C, R, T extends ThunkType> = {
   readonly type: ActionType;
   readonly thunk: Thunk<S, A, C, R>;
@@ -26,12 +28,15 @@ export type AnyThunkAction<R = any, T extends ThunkType = any> = ThunkAction<
   T
 >;
 
+// thunk creates a thunk action from a given thunk function.
+// A null is set to its thunk type.
 export function thunk<S, A extends Action, C, R>(
   f: Thunk<S, A, C, R>,
 ): ThunkAction<S, A, C, R, null> {
   return thunkAs(null, f);
 }
 
+// thunkAs creates a thunk action from a given thunk function and thunk type.
 export function thunkAs<S, A extends Action, C, R, T extends ThunkType>(
   thunkType: T,
   f: Thunk<S, A, C, R>,
@@ -56,6 +61,13 @@ export function thunkAs<S, A extends Action, C, R, T extends ThunkType>(
   };
 }
 
+// isThunkAction determines a given action is a thunk action or not.
+export function isThunkAction(action: AnyAction): action is AnyThunkAction {
+  return action.type === ACTION_TYPE;
+}
+
+// createThunkMiddleware creates a Redux middleware.
+// Optionally you can specify a context that will be passed to thunk functions.
 export function createThunkMiddleware<C = void, D extends Dispatch = Dispatch>(
   context?: C,
 ): Middleware<{}, any, D> {
@@ -69,8 +81,4 @@ export function createThunkMiddleware<C = void, D extends Dispatch = Dispatch>(
     }
     return next(action);
   };
-}
-
-export function isThunkAction(action: AnyAction): action is AnyThunkAction {
-  return action.type === ACTION_TYPE;
 }
