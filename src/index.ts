@@ -13,7 +13,13 @@ export type ActionType = typeof ACTION_TYPE;
 export type ThunkType = any | null;
 
 // ThunkAction is a type of a thunk action that is created by thunk action creators.
-export type ThunkAction<S, A extends Action, C, R, T extends ThunkType> = {
+export type ThunkAction<
+  S,
+  A extends Action,
+  C = null,
+  R = void,
+  T extends ThunkType = any
+> = {
   readonly type: ActionType;
   readonly thunk: Thunk<S, A, C, R>;
   readonly promise: Promise<R>;
@@ -30,17 +36,20 @@ export type AnyThunkAction<R = any, T extends ThunkType = any> = ThunkAction<
 
 // thunk creates a thunk action from a given thunk function.
 // A null is set to its thunk type.
-export function thunk<S, A extends Action, C, R>(
+export function thunk<S, A extends Action, C = null, R = void>(
   f: Thunk<S, A, C, R>,
 ): ThunkAction<S, A, C, R, null> {
   return thunkAs(null, f);
 }
 
 // thunkAs creates a thunk action from a given thunk function and thunk type.
-export function thunkAs<S, A extends Action, C, R, T extends ThunkType>(
-  thunkType: T,
-  f: Thunk<S, A, C, R>,
-): ThunkAction<S, A, C, R, T> {
+export function thunkAs<
+  T extends ThunkType,
+  S,
+  A extends Action,
+  C = null,
+  R = void
+>(thunkType: T, f: Thunk<S, A, C, R>): ThunkAction<S, A, C, R, T> {
   let _resolve: (r: R) => any;
   let _reject: (a: any) => any;
   const promise = new Promise<R>((resolve, reject) => {
