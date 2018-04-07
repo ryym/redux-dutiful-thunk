@@ -14,7 +14,8 @@
   ],
   "scripts": {
     "test": "mocha --require ts-node/register/type-check 'src/*_test.ts'",
-    "test:w": "npm run test -- --watch --watch-extensions ts"
+    "test:w": "npm run test -- --watch --watch-extensions ts",
+    "lint": "tslint -p . -t verbose 'src/**/*.ts'"
   },
   "keywords": [
     "redux",
