@@ -1,6 +1,6 @@
 import {Dispatch, Action, AnyAction, Middleware, MiddlewareAPI} from 'redux';
 
-export type Thunk<S, A extends Action, C, R> = (
+export type Thunk<S, A extends Action, C = null, R = void> = (
   dispatch: Dispatch<A>,
   getState: () => S,
   context: C,
@@ -46,9 +46,10 @@ export function thunkAs<S, A extends Action, C, R, T extends ThunkType>(
   return {
     type: ACTION_TYPE,
     thunk: (dispatch, getState, context) => {
-      return f(dispatch, getState, context)
+      f(dispatch, getState, context)
         .then(_resolve)
         .catch(_reject);
+      return promise;
     },
     promise,
     thunkType,
