@@ -22,7 +22,9 @@
     "build": "rm -rf dist && tsc",
     "test": "TS_NODE_CACHE=0 mocha --require ts-node/register/type-check 'src/*_test.ts'",
     "test:w": "npm run test -- --watch --watch-extensions ts",
-    "lint": "tslint -p . -t verbose 'src/**/*.ts'"
+    "lint": "tslint -p . -t verbose 'src/**/*.ts'",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run test"
   },
   "dependencies": {
     "redux": "4.0.0-beta.2"
