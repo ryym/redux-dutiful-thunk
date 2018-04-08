@@ -33,7 +33,7 @@ So for example when you use Redux Thunk with [TypeScript](https://www.typescript
 you need to tweak Redux type definitions in some way
 (I don't know about [flow](https://flow.org/) much but I guess a similar problem exists).
 Therefore I could not find a good reason to use a function as a special action.
-Instead, let's create a usual action to meet the Redux rule and match its type definitions.
+Instead, let's create a normal action to meet the Redux rule and match its type definitions.
 
 ```js
 import {thunk} from 'redux-dutiful-thunk';
@@ -49,7 +49,7 @@ function incrementAsync() {
 console.log(incrementAsync());
 //=> { type: '@@redux-dutiful-thunk/THUNK', thunk: f, }
 
-// So the `dispatch` function can take an action as usual.
+// So the `dispatch` function can take an action as usual, instead of a function.
 store.dispatch(incrementAsync());
 ```
 
