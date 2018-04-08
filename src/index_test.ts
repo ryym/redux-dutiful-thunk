@@ -47,11 +47,7 @@ describe('thunk middleware', () => {
   it('runs a thunk', async () => {
     const val = Symbol('return value');
     const action = runNext(dispatch)(thunk(async () => val));
-    assertEqual(
-      await action.promise,
-      val,
-      'checking return value of middleware',
-    );
+    assertEqual(await action.promise, val, 'checking return value of middleware');
   });
 
   it('just passes action to next if not a thunk', () => {
