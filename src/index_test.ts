@@ -11,14 +11,14 @@ describe('thunk()', () => {
   it('wraps a thunk function as an action', async () => {
     const val = Symbol('return value');
     const action = thunk(async () => val);
-    const returnValue = await action.thunk(dispatch, getState, null);
+    const returnValue = await action.thunk(dispatch, getState);
     assertEqual(returnValue, val, 'comparing return values');
   });
 
   it('provides a promise to access the return value', async () => {
     const val = Symbol('return value');
     const action = thunk(async () => val);
-    action.thunk(dispatch, getState, null);
+    action.thunk(dispatch, getState);
     assertEqual(await action.promise, val, 'comparing return values');
   });
 });

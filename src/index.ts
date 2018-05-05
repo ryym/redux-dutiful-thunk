@@ -1,10 +1,10 @@
 import {Dispatch, Action, AnyAction, Middleware, MiddlewareAPI} from 'redux';
 
 // Thunk is a type of thunk function.
-export type Thunk<S, A extends Action, C = null, R = void> = (
+export type Thunk<S, A extends Action, C = undefined, R = void> = (
   dispatch: Dispatch<A>,
   getState: () => S,
-  context: C,
+  context?: C,
 ) => Promise<R>;
 
 export const ACTION_TYPE = '@@redux-dutiful-thunk/THUNK';
@@ -13,7 +13,7 @@ export type ActionType = typeof ACTION_TYPE;
 export type ThunkType = any | null;
 
 // ThunkAction is a type of a thunk action that is created by thunk action creators.
-export type ThunkAction<S, A extends Action, C = null, R = void, T extends ThunkType = any> = {
+export type ThunkAction<S, A extends Action, C = undefined, R = void, T extends ThunkType = any> = {
   readonly type: ActionType;
   readonly thunk: Thunk<S, A, C, R>;
   readonly promise: Promise<R>;
@@ -30,14 +30,14 @@ export type AnyThunkAction<R = any, T extends ThunkType = any> = ThunkAction<
 
 // thunk creates a thunk action from a given thunk function.
 // A null is set to its thunk type.
-export function thunk<S, A extends Action, C = null, R = void>(
+export function thunk<S, A extends Action, C = undefined, R = void>(
   f: Thunk<S, A, C, R>,
 ): ThunkAction<S, A, C, R, null> {
   return thunkAs(null, f);
 }
 
 // thunkAs creates a thunk action from a given thunk function and thunk type.
-export function thunkAs<T extends ThunkType, S, A extends Action, C = null, R = void>(
+export function thunkAs<T extends ThunkType, S, A extends Action, C = undefined, R = void>(
   thunkType: T,
   f: Thunk<S, A, C, R>,
 ): ThunkAction<S, A, C, R, T> {
